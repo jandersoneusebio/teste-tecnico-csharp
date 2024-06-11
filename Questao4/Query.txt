@@ -1,0 +1,1 @@
+select assunto, ano, count(assunto) as quantidade from atendimentos group by assunto, ano having count(assunto) > 3 order by ano desc, quantidade desc;
