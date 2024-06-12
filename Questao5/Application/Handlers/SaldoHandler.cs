@@ -15,23 +15,28 @@ namespace Questao5.Application.Handlers
     {
         private readonly IMediator _mediator;
         private readonly IMovimentacaoRepository _movimentacaoRepository;
+        private readonly IContaRepository _contaRepository;
 
-        public SaldoHandler(IMediator mediator, IMovimentacaoRepository movimentacaoRepository)
+        public SaldoHandler(IMediator mediator, IMovimentacaoRepository movimentacaoRepository, IContaRepository contaRepository)
         {
             _mediator = mediator;
             _movimentacaoRepository = movimentacaoRepository;
+            _contaRepository = contaRepository;
         }
 
         public async Task<SaldoResponse> Handle(SaldoCommand request, CancellationToken cancellationToken)
         {
             ValidarConta(request.IdentificacaoConta);
-            SaldoEntity saldo = await _movimentacaoRepository.ConsultarSaldo(request.IdentificacaoConta);
+            //SaldoEntity saldo = await _movimentacaoRepository.ConsultarSaldo(request.IdentificacaoConta);
+
+            double saldo = await _movimentacaoRepository.ConsultarSaldo(request.IdentificacaoConta);
+            ContaEntity contaEntity = await _contaRepository.GetById(request.IdentificacaoConta);
 
             return new SaldoResponse
             {
-                Saldo = saldo.Saldo,
-                NomeTitular = saldo.Nome,
-                NumeroConta = saldo.Numero,
+                Saldo = saldo,
+                NomeTitular = contaEntity.Nome,
+                NumeroConta = contaEntity.Numero,
                 DataHoraResponse = DateTime.Now.ToString()
             };
         }

@@ -13,18 +13,15 @@ namespace Questao5.Infrastructure.Services.Controllers
     public class SaldoController : ControllerBase
     {
 
-        private readonly ILogger<MovimentacaoController> _logger;
-        private readonly IMovimentacaoRepository _movimentacaoRepository;
+        private readonly ILogger<SaldoController> _logger;
         private readonly IMediator _mediator;
 
         public SaldoController(
-            ILogger<MovimentacaoController> logger,
-            IMovimentacaoRepository movimentacaoRepository,
+            ILogger<SaldoController> logger,
             IMediator mediator
         )
         {
             _logger = logger;
-            _movimentacaoRepository = movimentacaoRepository;
             _mediator = mediator;
         }
 
@@ -34,7 +31,7 @@ namespace Questao5.Infrastructure.Services.Controllers
         /// <param name="idConta"></param>
         /// <returns>Os dados e o saldo da conta corrente consultada</returns>
         [HttpGet("consultar/{idConta}")]
-        public async Task<IActionResult> Sensibilizar(string idConta)
+        public async Task<IActionResult> ConsultarSaldo(string idConta)
         {
             try
             {

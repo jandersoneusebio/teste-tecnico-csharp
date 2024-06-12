@@ -6,6 +6,6 @@ namespace Questao5.Infrastructure.Database.Repository
     {
         public Task<IEnumerable<MovimentacaoEntity>> GetAll();
         public Task<MovimentacaoEntity> Salvar(MovimentacaoEntity movimentacaoEntity);
-        public Task<SaldoEntity> ConsultarSaldo(string idConta);
+        public Task<double> ConsultarSaldo(string idConta);
     }
 }

@@ -46,20 +46,19 @@ namespace Questao5.Infrastructure.Database.Repository
             throw new ApplicationException("Entidade não persistida");
         }
 
-        public async Task<SaldoEntity> ConsultarSaldo(string idConta)
+        public async Task<double> ConsultarSaldo(string idConta)
         {
             using (IDbConnection dbConnection = _dbConnectionFactory.CreateConnection())
             {
                 var sql = "SELECT " +
-                          "(" +
+                          "COALESCE(" +
                           "     SUM(CASE WHEN mov.tipomovimento = 'C' THEN mov.valor ELSE 0 END) - SUM(CASE WHEN mov.tipomovimento = 'D' THEN mov.valor ELSE 0 END)" +
-                          ") AS saldo, " +
-                          "     cc.numero, " +
-                          "     cc.nome " +
-                          "FROM movimento mov JOIN contacorrente cc ON mov.idcontacorrente = cc.idcontacorrente WHERE mov.idcontacorrente = @IdConta ";
+                          ", 0) AS SALDO " +
+                          "FROM movimento mov WHERE mov.idcontacorrente = @IdConta ";
+                var teste = await dbConnection.QueryFirstAsync(sql, new { IdConta = idConta });
                 SaldoEntity saldo = await dbConnection.QueryFirstOrDefaultAsync<SaldoEntity>(sql, new { IdConta = idConta });
 
-                return saldo;
+                return saldo != null ? saldo.Saldo : 0;
             }
         }
     }

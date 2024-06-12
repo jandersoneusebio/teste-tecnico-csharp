@@ -14,17 +14,14 @@ namespace Questao5.Infrastructure.Services.Controllers
     {
 
         private readonly ILogger<MovimentacaoController> _logger;
-        private readonly IMovimentacaoRepository _movimentacaoRepository;
         private readonly IMediator _mediator;
 
         public MovimentacaoController(
             ILogger<MovimentacaoController> logger,
-            IMovimentacaoRepository movimentacaoRepository,
             IMediator mediator
         )
         {
             _logger = logger;
-            _movimentacaoRepository = movimentacaoRepository;
             _mediator = mediator;
         }
 
